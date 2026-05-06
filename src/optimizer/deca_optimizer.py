@@ -70,7 +70,8 @@ class BlockAdamW(Optimizer):
         reset_optimizer_on_switch: bool = True,
         target_modules: Optional[List[str]] = None,
         use_tsm: bool = False,
-        use_mm: bool = False
+        use_mm: bool = False,
+        clip=False
     ):
         if lr < 0.0:
             raise ValueError(f"Invalid learning rate: {lr}")
@@ -95,6 +96,7 @@ class BlockAdamW(Optimizer):
         self.target_modules = _normalize_target_modules(target_modules)
         self.use_tsm = use_tsm
         self.use_mm = use_mm
+        self.clip = clip
 
         self.enable_distributed = enable_distributed and dist.is_initialized()
         self.rank = dist.get_rank() if self.enable_distributed else 0
@@ -596,7 +598,8 @@ class BlockAdamW(Optimizer):
         deltas = [self.state[p]['shadow_param'] - p.data.to(self.compute_dtype) for p in params]
         # Normalise the quasi-gradient vector
         norm = torch.cat([d.reshape(-1) for d in deltas]).norm(p=2).clamp_min(1e-6)
-        norm = torch.maximum(norm, torch.tensor(0.5, device=norm.device, dtype=norm.dtype))
+        if self.clip:
+            norm = torch.maximum(norm, torch.tensor(0.5, device=norm.device, dtype=norm.dtype))
         torch._foreach_div_(deltas, norm)
         
         # m ← β1·m + (1-β1)·Δθ̂
