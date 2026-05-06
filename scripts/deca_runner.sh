@@ -40,7 +40,7 @@ run_job() {
             --learning_rate 5e-5 \
             --local_epochs 24 \
             --comm_frq 1 \
-            --blkcg_frq 60 \
+            --blkcg_frq 48 \
             --dataset_name $dataset \
             --data_path $data_path \
             --eval_strategy no \
