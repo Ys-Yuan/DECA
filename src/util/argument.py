@@ -307,10 +307,10 @@ class TrainingArguments:
         metadata={"help": "Max checkpoints to keep."}
     )
     mu1: Optional[float] = field(
-        default=0.3,
+        default=0.9,
         metadata={"help": "mu1."}
     )
     mu2: Optional[float] = field(
-        default=0.333,
+        default=0.999,
         metadata={"help": "mu2"}
     )
