@@ -10,15 +10,7 @@ declare -A MODELS=(
 
 # 数据集列表
 declare -A DATASETS=(
-    ["mnli"]="/root/deca/data/mnli"
-    ["ag_news"]="/root/deca/data/ag_news"
-    ["tfns"]="/root/deca/data/tfns"
     ["nwgi"]="/root/deca/data/nwgi"
-    # ["fiqa"]="/root/deca/data/fiqa"
-    # ["emotion"]="/root/deca/data/emotion"
-    # ["alpaca"]="/root/deca/data/alpaca"
-    # ["arc-easy"]="/root/deca/data/ai2_arc"
-    # ["arc-challenge"]="/root/deca/data/ai2_arc"
 )
 
 # Dirichlet α 列表
